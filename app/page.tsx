@@ -1,65 +1,168 @@
-import Image from "next/image";
+// app/page.tsx
+export default function Page() {
+  const today = new Date().toLocaleDateString(undefined, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  });
 
-export default function Home() {
+  const checklist = [
+    { label: "Vitamin D", done: true },
+    { label: "Inositol", done: false },
+    { label: "Omega-3", done: false },
+    { label: "10k steps / walk", done: true },
+  ];
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="min-h-screen bg-[radial-gradient(1200px_circle_at_20%_10%,rgba(255,255,255,0.6),transparent_45%),radial-gradient(900px_circle_at_80%_20%,rgba(216,180,254,0.35),transparent_50%),linear-gradient(135deg,rgba(15,23,42,1),rgba(30,27,75,1),rgba(245,243,255,1))]">
+      <div className="mx-auto max-w-md px-4 pb-24 pt-8">
+        {/* Header */}
+        <header className="mb-6">
+          <p className="text-xs tracking-wide text-white/70">{today}</p>
+          <h1 className="mt-1 text-3xl font-semibold text-white">levana</h1>
+          <p className="mt-1 text-sm text-white/70">
+            A calm place to track your rhythm.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        </header>
+
+        {/* Quick stats */}
+        <section className="mb-5 grid grid-cols-3 gap-3">
+          <Stat label="Steps" value="8,234" />
+          <Stat label="Protein" value="96g" />
+          <Stat label="Water" value="1.7L" />
+        </section>
+
+        {/* Cycle card */}
+        <Card>
+          <div className="flex items-start justify-between">
+            <div>
+              <h2 className="text-base font-semibold text-white">Cycle</h2>
+              <p className="mt-1 text-sm text-white/70">
+                Waiting / regulating
+              </p>
+            </div>
+            <span className="rounded-2xl border border-white/15 bg-white/10 px-3 py-1 text-xs text-white/80 backdrop-blur">
+              Day 47
+            </span>
+          </div>
+
+          <div className="mt-4">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-sm text-white/90">Readiness</p>
+              <p className="text-sm text-white/90">62%</p>
+            </div>
+            <div className="h-2 w-full rounded-full bg-white/10">
+              <div className="h-2 w-[62%] rounded-full bg-white/50" />
+            </div>
+            <p className="mt-2 text-xs text-white/70">
+              Tip: consistency over intensity.
+            </p>
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button className="rounded-2xl bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-white/90">
+              Log symptoms
+            </button>
+            <button className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white hover:bg-white/15">
+              View insights
+            </button>
+          </div>
+        </Card>
+
+        {/* Checklist */}
+        <Card className="mt-4">
+          <div className="flex items-center justify-between">
+            <h2 className="text-base font-semibold text-white">Today</h2>
+            <span className="text-xs text-white/70">Checklist</span>
+          </div>
+
+          <div className="mt-4 space-y-3">
+            {checklist.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-3 py-2"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className={[
+                      "h-5 w-5 rounded-md border",
+                      item.done
+                        ? "border-white/30 bg-white/60"
+                        : "border-white/20 bg-transparent",
+                    ].join(" ")}
+                  />
+                  <p className="text-sm text-white/90">{item.label}</p>
+                </div>
+
+                <span className="rounded-xl bg-white/10 px-2 py-1 text-xs text-white/75">
+                  {item.done ? "Done" : "Later"}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <button className="rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-medium text-white hover:bg-white/15">
+              Add item
+            </button>
+            <button className="rounded-2xl bg-white px-4 py-3 text-sm font-medium text-slate-900 hover:bg-white/90">
+              Complete day
+            </button>
+          </div>
+        </Card>
+
+        {/* Bottom nav (simple) */}
+        <nav className="fixed bottom-0 left-0 right-0 mx-auto max-w-md px-4 pb-4">
+          <div className="flex items-center justify-between rounded-3xl border border-white/15 bg-white/10 px-4 py-3 backdrop-blur">
+            <NavItem label="Home" active />
+            <NavItem label="Cycle" />
+            <NavItem label="Train" />
+            <NavItem label="Stats" />
+          </div>
+        </nav>
+      </div>
+    </main>
+  );
+}
+
+function Card({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <section
+      className={[
+        "rounded-3xl border border-white/15 bg-white/10 p-4 text-white shadow-none backdrop-blur",
+        className,
+      ].join(" ")}
+    >
+      {children}
+    </section>
+  );
+}
+
+function Stat({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-3xl border border-white/15 bg-white/10 px-3 py-3 text-white backdrop-blur">
+      <p className="text-[11px] tracking-wide text-white/70">{label}</p>
+      <p className="mt-1 text-lg font-semibold">{value}</p>
     </div>
+  );
+}
+
+function NavItem({ label, active }: { label: string; active?: boolean }) {
+  return (
+    <button
+      className={[
+        "rounded-2xl px-3 py-2 text-[11px] transition",
+        active ? "bg-white/20 text-white" : "text-white/70 hover:bg-white/10",
+      ].join(" ")}
+      aria-current={active ? "page" : undefined}
+    >
+      {label}
+    </button>
   );
 }
